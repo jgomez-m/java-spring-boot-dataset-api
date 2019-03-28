@@ -1,6 +1,15 @@
 package com.hackerrank.github.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
 public class Repo {
+    @Id
+    @NotNull
     private Long id;
     private String name;
     private String url;
