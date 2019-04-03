@@ -91,8 +91,9 @@ public class ActorServiceImpl implements ActorService
 
         for(Event e: events){
             currentDate = e.getCreatedAt();
-            long daysBetween = TimeUnit.DAYS.convert(previousDate.getTime() - currentDate.getTime(),
+            long daysBetween = TimeUnit.DAYS.convert(currentDate.getTime() - previousDate.getTime(),
                 TimeUnit.MILLISECONDS);
+            daysBetween = Math.abs(daysBetween);
             if(daysBetween <= 1 && e.getActor().equals(previousActor)){
                 addToActorMap(e, mapActors);
             }
