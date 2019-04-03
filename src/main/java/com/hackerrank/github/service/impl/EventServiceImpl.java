@@ -1,6 +1,7 @@
 package com.hackerrank.github.service.impl;
 
 import com.hackerrank.github.model.Event;
+import com.hackerrank.github.repository.ActorRepository;
 import com.hackerrank.github.repository.EventRepository;
 import com.hackerrank.github.service.EventService;
 import java.util.List;
@@ -11,10 +12,12 @@ import org.springframework.stereotype.Service;
 public class EventServiceImpl implements EventService
 {
     private EventRepository eventRepository;
+    private ActorRepository actorRepository;
 
     @Autowired
-    public EventServiceImpl(EventRepository eventRepository){
+    public EventServiceImpl(EventRepository eventRepository, ActorRepository actorRepository){
         this.eventRepository = eventRepository;
+        this.actorRepository = actorRepository;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class EventServiceImpl implements EventService
     {
         boolean exists = eventRepository.exists(event.getId());
         if(!exists){
-            eventRepository.save(event);
+            Event e = eventRepository.save(event);
             return Boolean.TRUE;
         }
         else {
@@ -45,6 +48,6 @@ public class EventServiceImpl implements EventService
     @Override
     public List<Event> getEventByActorId(final Long id)
     {
-        return eventRepository.findByActorIdOrderedByActorIdDesc(id);
+        return eventRepository.findByActorIdOrderedByActorIdAsc(id);
     }
 }

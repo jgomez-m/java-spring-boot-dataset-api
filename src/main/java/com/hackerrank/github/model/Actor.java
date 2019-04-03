@@ -2,7 +2,7 @@ package com.hackerrank.github.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.persistence.Column;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
@@ -48,5 +48,28 @@ public class Actor {
     
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    @Override
+    public boolean equals(final Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        final Actor actor = (Actor) o;
+        return id.equals(actor.id) &&
+            login.equals(actor.login) &&
+            Objects.equals(avatar, actor.avatar);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, login, avatar);
     }
 }

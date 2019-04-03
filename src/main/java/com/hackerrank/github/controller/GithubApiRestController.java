@@ -1,5 +1,6 @@
 package com.hackerrank.github.controller;
 
+import com.hackerrank.github.model.Actor;
 import com.hackerrank.github.model.Event;
 import com.hackerrank.github.service.ActorService;
 import com.hackerrank.github.service.EventService;
@@ -33,7 +34,7 @@ public class GithubApiRestController {
     }
 
     @RequestMapping(value = "/events", method = RequestMethod.POST,
-        consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+        consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity newEvent(@RequestBody Event event){
         boolean eventAdded = eventService.add(event);
         if(eventAdded){
@@ -59,6 +60,33 @@ public class GithubApiRestController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(eventsByActor);
+    }
+
+    @RequestMapping(value = "/actors", method = RequestMethod.PUT,
+        consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateAvatarUrl(@RequestBody Actor actor)
+    {
+        if(!actorService.exist(actor)){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        if(!actorService.updateAvatar(actor)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(value = "/actors", method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getActors()
+    {
+        return ResponseEntity.ok(actorService.findAllActors());
+    }
+
+    @RequestMapping(value = "/actors/streak", method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getActorsByMaxStreak()
+    {
+        return ResponseEntity.ok(actorService.findActorsByStreak());
     }
 
 }

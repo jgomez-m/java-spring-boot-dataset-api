@@ -9,5 +9,5 @@ import org.springframework.data.repository.query.Param;
 public interface EventRepository extends CrudRepository<Event, Long>
 {
     @Query("SELECT e FROM Event e WHERE e.actor.id = :actorId ORDER BY e.id ASC")
-    List<Event> findByActorIdOrderedByActorIdDesc(@Param("actorId") Long actorId);
+    List<Event> findByActorIdOrderedByActorIdAsc(@Param("actorId") Long actorId);
 }
